@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Copy Function Test</title>
+    <style>
+        body { font-family: Arial; padding: 20px; max-width: 600px; margin: 0 auto; }
+        textarea { width: 100%; height: 150px; padding: 10px; margin: 10px 0; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+        .log { background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 5px; min-height: 100px; max-height: 300px; overflow-y: auto; font-family: monospace; font-size: 12px; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Copy Function Test</h1>
+    
+    <h2>Test 1: Copy Token Simulation</h2>
+    <textarea id="testToken" readonly>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c</textarea>
+    <button onclick="testCopyToken(event)">Test Copy Token</button>
+    
+    <h2>Test 2: Direct Fallback Method</h2>
+    <textarea id="testDirect" readonly>This is a test message for direct fallback copy</textarea>
+    <button onclick="testFallbackDirect(event)">Test Fallback Direct</button>
+    
+    <h2>Console Output</h2>
+    <div class="log" id="testLog"></div>
+    <button onclick="clearLog()">Clear Log</button>
+    
+    <script>
+        // Override console.log to also log to page
+        const originalLog = console.log;
+        const originalError = console.error;
+        
+        function logToPage(type, args) {
+            const log = document.getElementById('testLog');
+            const timestamp = new Date().toLocaleTimeString();
+            const message = Array.from(args).map(arg => 
+                typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
+            ).join(' ');
+            const className = type === 'error' ? 'error' : 'success';
+            log.innerHTML += `<div class="${className}">[${timestamp}] ${message}</div>`;
+            log.scrollTop = log.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            logToPage('log', args);
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            logToPage('error', args);
+        };
+        
+        // ===== COPY FUNCTIONS FROM APP =====
+        function fallbackCopyToClipboard(text, event) {
+            console.log('fallbackCopyToClipboard START - text length:', text ? text.length : 0);
+            
+            // Create a temporary textarea
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            textarea.style.top = '0';
+            textarea.style.left = '0';
+            document.body.appendChild(textarea);
+            console.log('Textarea created and appended');
+            
+            try {
+                console.log('Calling textarea.select()');
+                textarea.select();
+                textarea.setSelectionRange(0, 99999);
+                console.log('Selection set, executing copy command');
+                
+                const successful = document.execCommand('copy');
+                console.log('document.execCommand copy result:', successful);
+                
+                if (successful) {
+                    console.log('Copy successful');
+                    showCopySuccess(event);
+                } else {
+                    console.error('Copy command returned false');
+                    alert('Failed to copy to clipboard. Please try copying manually.');
+                }
+            } catch (err) {
+                console.error('Fallback copy exception:', err);
+                alert('Error copying: ' + err.message);
+            } finally {
+                console.log('Removing textarea');
+                document.body.removeChild(textarea);
+            }
+        }
+        
+        function copyToClipboard(elementId, event) {
+            console.log('copyToClipboard START - elementId:', elementId);
+            
+            try {
+                const element = document.getElementById(elementId);
+                if (!element) {
+                    console.error('Element not found:', elementId);
+                    alert('Error: Token element not found!');
+                    return false;
+                }
+                
+                const text = element.value;
+                console.log('Token text obtained, length:', text ? text.length : 0);
+                
+                if (!text) {
+                    alert('No token to copy!');
+                    return false;
+                }
+                
+                console.log('Using fallback copy method');
+                fallbackCopyToClipboard(text, event);
+                return false;
+                
+            } catch (error) {
+                console.error('copyToClipboard error:', error);
+                alert('Error copying token: ' + error.message);
+                return false;
+            }
+        }
+        
+        function showCopySuccess(event) {
+            console.log('showCopySuccess called, event:', event);
+            const btn = event ? event.target : null;
+            console.log('Button element:', btn);
+            
+            if (btn) {
+                const originalText = btn.textContent;
+                const originalBg = btn.style.background;
+                const originalBorder = btn.style.borderColor;
+                
+                console.log('Updating button text to: ✅ Copied!');
+                btn.textContent = '✅ Copied!';
+                btn.style.background = '#28a745';
+                btn.style.borderColor = '#28a745';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = originalBg;
+                    btn.style.borderColor = originalBorder;
+                }, 2000);
+            } else {
+                console.log('No button element found, showing alert');
+                alert('Token copied to clipboard!');
+            }
+        }
+        
+        // ===== TEST FUNCTIONS =====
+        function testCopyToken(evt) {
+            console.log('====== TEST 1: copyToClipboard() ======');
+            copyToClipboard('testToken', evt);
+        }
+        
+        function testFallbackDirect(evt) {
+            console.log('====== TEST 2: Direct fallbackCopyToClipboard() ======');
+            const text = document.getElementById('testDirect').value;
+            fallbackCopyToClipboard(text, evt);
+        }
+        
+        function clearLog() {
+            document.getElementById('testLog').innerHTML = '';
+        }
+        
+        // Initial message
+        console.log('Test page loaded. Click buttons to run tests.');
+    </script>
+</body>
+</html>

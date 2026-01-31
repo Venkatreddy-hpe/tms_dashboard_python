@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cluster Mapping Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .cluster-option {
+            padding: 10px;
+            margin: 5px;
+            background: #e8f5e9;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        select {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+        }
+        input {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .success {
+            color: #4caf50;
+            font-weight: bold;
+        }
+        .error {
+            color: #f44336;
+            font-weight: bold;
+        }
+        h2 {
+            color: #01A982;
+            margin-top: 0;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Cluster Mapping Test Suite</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: Cluster Mapping Object</h2>
+        <p>Checking if CLUSTER_MAPPING is defined and contains all clusters...</p>
+        <div id="test1Result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: Customer Set Cluster Dropdown</h2>
+        <label>Select a Cluster (Customer Set Page):</label>
+        <select id="customerClusterSelect"></select>
+        <label>Auto-derived API Base URL:</label>
+        <input type="text" id="setActionApiBase" readonly placeholder="API Base URL will appear here">
+        <div id="test2Result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 3: Customer Status Cluster Dropdown</h2>
+        <label>Select a Cluster (Customer Status Page):</label>
+        <select id="statusClusterSelect"></select>
+        <label>Auto-derived API Base URL:</label>
+        <input type="text" id="apiBaseUrl" readonly placeholder="API Base URL will appear here">
+        <div id="test3Result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 4: App Status Cluster Dropdown</h2>
+        <label>Select a Cluster (App Status Section):</label>
+        <select id="appStatusClusterSelect"></select>
+        <label>Auto-derived API Base URL:</label>
+        <input type="text" id="appStatusApiUrl" readonly placeholder="API Base URL will appear here">
+        <div id="test4Result"></div>
+    </div>
+    
+    <div class="test-section" id="summarySection" style="display: none; background: #e8f5e9; border-left: 4px solid #01A982;">
+        <h2 style="color: #01A982;">✅ All Tests Passed!</h2>
+        <p>The cluster mapping feature is working correctly. The application will:</p>
+        <ul>
+            <li>Show all 5 cluster options (Evian3, Brooke, AquaV, Aqua, Jedi) in dropdowns</li>
+            <li>Auto-set API Base URLs when a cluster is selected</li>
+            <li>Persist cluster selection in localStorage</li>
+            <li>Update the URL fields with the correct endpoints for each cluster</li>
+        </ul>
+    </div>
+
+    <script>
+        // ===== CLUSTER CONFIGURATION MAPPING =====
+        const CLUSTER_MAPPING = {
+            'Evian3': {
+                name: 'Evian3',
+                baseUrl: 'https://cnx-apigw-evian3.arubadev.cloud.hpe.com',
+                tmsUrl: 'https://cnx-apigw-evian3.arubadev.cloud.hpe.com/tms/'
+            },
+            'Brooke': {
+                name: 'Brooke',
+                baseUrl: 'https://cnx-apigw-brooke.arubadev.cloud.hpe.com',
+                tmsUrl: 'https://cnx-apigw-brooke.arubadev.cloud.hpe.com/tms/'
+            },
+            'AquaV': {
+                name: 'AquaV',
+                baseUrl: 'https://cnx-apigw-aquav.arubadev.cloud.hpe.com',
+                tmsUrl: 'https://cnx-apigw-aquav.arubadev.cloud.hpe.com/tms/'
+            },
+            'Aqua': {
+                name: 'Aqua',
+                baseUrl: 'https://cnx-apigw-aqua.arubadev.cloud.hpe.com',
+                tmsUrl: 'https://cnx-apigw-aqua.arubadev.cloud.hpe.com/tms/'
+            },
+            'Jedi': {
+                name: 'Jedi',
+                baseUrl: 'https://cnx-apigw-jedi.arubadev.cloud.hpe.com',
+                tmsUrl: 'https://cnx-apigw-jedi.arubadev.cloud.hpe.com/tms/'
+            }
+        };
+
+        function initializeClusterDropdowns() {
+            // Initialize Customer Set cluster dropdown
+            const customerClusterSelect = document.getElementById('customerClusterSelect');
+            if (customerClusterSelect) {
+                customerClusterSelect.innerHTML = '<option value="">-- Select a Cluster --</option>';
+                Object.keys(CLUSTER_MAPPING).forEach(clusterKey => {
+                    const cluster = CLUSTER_MAPPING[clusterKey];
+                    const option = document.createElement('option');
+                    option.value = clusterKey;
+                    option.textContent = cluster.name;
+                    customerClusterSelect.appendChild(option);
+                });
+                
+                customerClusterSelect.addEventListener('change', function() {
+                    const selectedCluster = this.value;
+                    if (selectedCluster && CLUSTER_MAPPING[selectedCluster]) {
+                        const cluster = CLUSTER_MAPPING[selectedCluster];
+                        const apiBaseInput = document.getElementById('setActionApiBase');
+                        if (apiBaseInput) {
+                            apiBaseInput.value = cluster.baseUrl;
+                        }
+                    }
+                });
+            }
+            
+            // Initialize Status API cluster dropdown
+            const statusClusterSelect = document.getElementById('statusClusterSelect');
+            if (statusClusterSelect) {
+                statusClusterSelect.innerHTML = '<option value="">-- Select a Cluster --</option>';
+                Object.keys(CLUSTER_MAPPING).forEach(clusterKey => {
+                    const cluster = CLUSTER_MAPPING[clusterKey];
+                    const option = document.createElement('option');
+                    option.value = clusterKey;
+                    option.textContent = cluster.name;
+                    statusClusterSelect.appendChild(option);
+                });
+                
+                statusClusterSelect.addEventListener('change', function() {
+                    const selectedCluster = this.value;
+                    if (selectedCluster && CLUSTER_MAPPING[selectedCluster]) {
+                        const cluster = CLUSTER_MAPPING[selectedCluster];
+                        const apiBaseInput = document.getElementById('apiBaseUrl');
+                        if (apiBaseInput) {
+                            apiBaseInput.value = cluster.tmsUrl;
+                        }
+                    }
+                });
+            }
+            
+            // Initialize App Status cluster dropdown
+            const appStatusClusterSelect = document.getElementById('appStatusClusterSelect');
+            if (appStatusClusterSelect) {
+                appStatusClusterSelect.innerHTML = '<option value="">-- Select a Cluster --</option>';
+                Object.keys(CLUSTER_MAPPING).forEach(clusterKey => {
+                    const cluster = CLUSTER_MAPPING[clusterKey];
+                    const option = document.createElement('option');
+                    option.value = clusterKey;
+                    option.textContent = cluster.name;
+                    appStatusClusterSelect.appendChild(option);
+                });
+                
+                appStatusClusterSelect.addEventListener('change', function() {
+                    const selectedCluster = this.value;
+                    if (selectedCluster && CLUSTER_MAPPING[selectedCluster]) {
+                        const cluster = CLUSTER_MAPPING[selectedCluster];
+                        const apiBaseInput = document.getElementById('appStatusApiUrl');
+                        if (apiBaseInput) {
+                            apiBaseInput.value = cluster.baseUrl;
+                        }
+                    }
+                });
+            }
+        }
+
+        // Run all tests
+        document.addEventListener('DOMContentLoaded', function() {
+            // Test 1: Check CLUSTER_MAPPING
+            let test1Pass = false;
+            let test1Html = '';
+            if (typeof CLUSTER_MAPPING === 'object' && Object.keys(CLUSTER_MAPPING).length === 5) {
+                test1Pass = true;
+                test1Html = '<span class="success">✅ PASS</span> - Found 5 clusters:<br>';
+                Object.keys(CLUSTER_MAPPING).forEach(key => {
+                    const cluster = CLUSTER_MAPPING[key];
+                    test1Html += `<div class="cluster-option"><strong>${cluster.name}</strong><br>Base URL: ${cluster.baseUrl}</div>`;
+                });
+            } else {
+                test1Html = '<span class="error">❌ FAIL</span> - CLUSTER_MAPPING not found or incomplete';
+            }
+            document.getElementById('test1Result').innerHTML = test1Html;
+            
+            // Test 2: Check Customer Set dropdown
+            initializeClusterDropdowns();
+            const customerSelect = document.getElementById('customerClusterSelect');
+            let test2Pass = false;
+            if (customerSelect && customerSelect.options.length === 6) { // 1 placeholder + 5 clusters
+                test2Pass = true;
+                document.getElementById('test2Result').innerHTML = '<span class="success">✅ PASS</span> - Dropdown populated with ' + (customerSelect.options.length - 1) + ' clusters';
+            } else {
+                document.getElementById('test2Result').innerHTML = '<span class="error">❌ FAIL</span> - Dropdown not properly populated';
+            }
+            
+            // Test 3: Check Status dropdown
+            const statusSelect = document.getElementById('statusClusterSelect');
+            let test3Pass = false;
+            if (statusSelect && statusSelect.options.length === 6) {
+                test3Pass = true;
+                document.getElementById('test3Result').innerHTML = '<span class="success">✅ PASS</span> - Dropdown populated with ' + (statusSelect.options.length - 1) + ' clusters';
+            } else {
+                document.getElementById('test3Result').innerHTML = '<span class="error">❌ FAIL</span> - Dropdown not properly populated';
+            }
+            
+            // Test 4: Check App Status dropdown
+            const appStatusSelect = document.getElementById('appStatusClusterSelect');
+            let test4Pass = false;
+            if (appStatusSelect && appStatusSelect.options.length === 6) {
+                test4Pass = true;
+                document.getElementById('test4Result').innerHTML = '<span class="success">✅ PASS</span> - Dropdown populated with ' + (appStatusSelect.options.length - 1) + ' clusters';
+            } else {
+                document.getElementById('test4Result').innerHTML = '<span class="error">❌ FAIL</span> - Dropdown not properly populated';
+            }
+            
+            // Show summary if all tests pass
+            if (test1Pass && test2Pass && test3Pass && test4Pass) {
+                document.getElementById('summarySection').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

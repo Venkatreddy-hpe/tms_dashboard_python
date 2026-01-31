@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TMS Dashboard Login</title>
+  <link rel="stylesheet" href="/static/login.css" />
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <h1>TMS Dashboard</h1>
+      <form id="login-form">
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" autocomplete="username" required />
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required />
+
+        <button type="submit">Login</button>
+        <div id="message" class="message" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('login-form');
+    const message = document.getElementById('message');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      message.textContent = '';
+      message.className = 'message';
+
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!username || !password) {
+        message.textContent = 'Please enter username and password';
+        message.classList.add('error');
+        return;
+      }
+
+      try {
+        const resp = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+
+        const data = await resp.json();
+        if (resp.ok && data.success) {
+          message.textContent = 'Login successful. Redirecting...';
+          message.classList.add('success');
+          setTimeout(() => window.location.href = '/', 500);
+        } else {
+          message.textContent = data.message || 'Login failed';
+          message.classList.add('error');
+        }
+      } catch (err) {
+        message.textContent = 'Network error. Please try again.';
+        message.classList.add('error');
+      }
+    });
+  </script>
+</body>
+</html>

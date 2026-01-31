@@ -1,0 +1,36 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+pdanekula@auto-virtual-machine:~/tms_dashboard_python$                  pdanekul
+a@auto-virtual-machine:~/tms_dashboard_python$
+pdanekula@auto-virtual-machine:~/tms_dashboard_python$ screen -ls
+There are screens on:
+        54310.pts-7.auto-virtual-machine        (01/09/2026 02:49:37 PM)
+        (Attached)
+        50099.tms_dashboard     (01/09/2026 11:00:35 AM)        (Detached)
+2 Sockets in /run/screen/S-pdanekula.
+pdanekula@auto-virtual-machine:~/tms_dashboard_python$
+pdanekula@auto-virtual-machine:~/tms_dashboard_python$
+pdanekula@auto-virtual-machine:~/tms_dashboard_python$
+pdanekula@auto-virtual-machine:~/tms_dashboard_python$

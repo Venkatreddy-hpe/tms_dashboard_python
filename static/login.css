@@ -1,0 +1,107 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #01A982 0%, #00856A 100%);
+  color: #0b1723;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+}
+
+.login-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 24px;
+  color: #01A982;
+}
+
+.subtitle {
+  margin: 0 0 16px;
+  color: #475569;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+label {
+  font-weight: 600;
+  color: #01A982;
+}
+
+input {
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+input:focus {
+  outline: 2px solid #01A982;
+  border-color: #01A982;
+}
+
+button {
+  margin-top: 8px;
+  padding: 12px;
+  background: #01A982;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: #00856A;
+}
+
+.message {
+  min-height: 18px;
+  font-size: 13px;
+  color: #01A982;
+}
+
+.message.error {
+  color: #b91c1c;
+}
+
+.message.success {
+  color: #15803d;
+}
+
+.demo-users {
+  margin-top: 16px;
+  background: #f1f5f9;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+a {
+  color: #01A982;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

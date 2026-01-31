@@ -1,0 +1,21 @@
+2026-01-30 16:25:00 | INFO     | set_action_start | user=harish | action=Tran-Begin | cid_count=126 | api_base=cnx-apigw-evian3.arubadev.cloud.hpe.com
+2026-01-30 17:00:26 | INFO     | set_action_start | user=harish | action=Tran-Begin | cid_count=126 | api_base=cnx-apigw-evian3.arubadev.cloud.hpe.com
+2026-01-30 17:00:26 | INFO     | set_action_done | user=harish | action=Tran-Begin | job_id=NONE | http_status=401 | elapsed_ms=260 | result=fail | error="API returned status 401: {"errorCode":"HPE_GL_NETWORKING_ERROR_UNAUTHORIZED","httpStatusCode":401,"m"
+2026-01-30 17:48:58 | INFO     | set_action_start | user=harish | action=Tran-Begin | cid_count=150 | api_base=cnx-apigw-evian3.arubadev.cloud.hpe.com
+2026-01-30 17:49:12 | WARNING  | set_action_job_missing | user=harish | action=Tran-Begin | http_status=200 | note="remote success but job not recorded"
+2026-01-30 17:50:36 | INFO     | set_action_start | user=harish | action=Tran-Begin | cid_count=150 | api_base=cnx-apigw-evian3.arubadev.cloud.hpe.com
+2026-01-30 17:50:37 | WARNING  | set_action_job_missing | user=harish | action=Tran-Begin | http_status=200 | note="remote success but job not recorded"
+2026-01-30 17:59:04 | INFO     | set_action_start | user=vijay | action=T-Enable | cid_count=18 | api_base=internal.api.central.arubanetworks.com
+2026-01-30 17:59:15 | INFO     | set_action_done | user=vijay | action=T-Enable | job_id=d85dafdc-62dc-4c86-994c-42ac15d41181 | http_status=200 | elapsed_ms=11016 | result=success
+2026-01-30 21:56:44 | INFO     | set_action_start | user=harish | action=Tran-Begin | cid_count=150 | api_base=cnx-apigw-evian3.arubadev.cloud.hpe.com
+2026-01-30 21:57:00 | WARNING  | set_action_job_missing | user=harish | action=Tran-Begin | http_status=200 | note="remote success but job not recorded"
+2026-01-30 21:59:44 | INFO     | set_action_start | user=harish | action=Tran-Begin | cid_count=150 | api_base=cnx-apigw-evian3.arubadev.cloud.hpe.com
+2026-01-30 21:59:45 | INFO     | set_action_done | user=harish | action=Tran-Begin | job_id=a1dc63cf-4899-4d52-9506-c991120d8538 | http_status=200 | elapsed_ms=627 | result=fail | error="those CIDs ['c126d3b0fb0111efb2cdda09530d44i5', 'c108d3b0fb0111efb2cdda09530d44hn', 'c128d3b0fb0111e"
+2026-01-30 22:28:54 | INFO     | set_action_start | user=prasad | action=PE-Enable | cid_count=1 | api_base=cnx-apigw-evian3.arubadev.cloud.hpe.com
+2026-01-30 22:29:10 | INFO     | set_action_done | user=prasad | action=PE-Enable | job_id=7e387c75-c429-4d71-9e6c-b16b178baf64 | http_status=200 | elapsed_ms=16549 | result=success
+2026-01-31 08:38:46 | INFO     | set_action_start | user=vijay | action=T-Enable | cid_count=114 | api_base=internal.api.central.arubanetworks.com
+2026-01-31 08:38:57 | INFO     | set_action_done | user=vijay | action=T-Enable | job_id=152403e9-33bb-4bcb-b710-cfe302e0d383 | http_status=200 | elapsed_ms=10552 | result=success
+2026-01-31 08:39:31 | INFO     | set_action_start | user=vijay | action=T-Enable | cid_count=120 | api_base=internal.api.central.arubanetworks.com
+2026-01-31 08:39:32 | INFO     | set_action_done | user=vijay | action=T-Enable | job_id=c307a324-cb83-4899-86d1-47f60e2d78e8 | http_status=200 | elapsed_ms=281 | result=success
+2026-01-31 08:41:42 | INFO     | set_action_start | user=vijay | action=T-Enable | cid_count=2 | api_base=internal.api.central.arubanetworks.com
+2026-01-31 08:41:42 | INFO     | set_action_done | user=vijay | action=T-Enable | job_id=50efc138-2874-43f2-adab-76dfb085b445 | http_status=200 | elapsed_ms=282 | result=success

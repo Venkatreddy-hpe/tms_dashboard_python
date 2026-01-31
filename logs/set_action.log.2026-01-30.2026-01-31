@@ -1,0 +1,13 @@
+2026-01-30 14:29:37 | INFO     | set_action_start | user=test_admin | action=PE-Enable | cid_count=15 | cluster=evian3 | device=apigw | api_base=cnx-apigw-evian3.arubadev.cloud.hpe.com
+2026-01-30 14:29:37 | INFO     | set_action_done | user=test_admin | action=PE-Enable | job_id=job-12345-abcde | http_status=200 | elapsed_ms=2150 | result=success
+2026-01-30 14:29:37 | INFO     | set_action_done | user=test_user | action=Trans-Begin | job_id=job-67890-fghij | http_status=401 | elapsed_ms=450 | result=fail | error="Unauthorized - Invalid Bearer Token"
+2026-01-30 14:29:37 | WARNING  | set_action_job_missing | user=test_admin | action=PE-Finalize | http_status=200 | note="remote success but job not recorded"
+2026-01-30 14:29:37 | ERROR    | set_action_error | user=test_admin | action=T-Enable | cid_count=8 | exception_type=Timeout | error="Request timeout after 35s"
+2026-01-30 14:29:37 | ERROR    | set_action_error | user=test_user | action=PE-Direct | cid_count=5 | exception_type=RequestException | error="Connection refused - unable to reach API server"
+2026-01-30 14:45:30 | INFO     | set_action_start | user=prasad | action=PE-Finalize | cid_count=1 | api_base=cnx-apigw-evian3.arubadev.cloud.hpe.com
+2026-01-30 14:45:45 | INFO     | set_action_done | user=prasad | action=PE-Finalize | job_id=6db2a777-c86d-432f-a14c-42605bbf7ad6 | http_status=200 | elapsed_ms=15404 | result=success
+2026-01-30 14:47:26 | INFO     | set_action_start | user=harish | action=PE-Finalize | cid_count=1 | api_base=cnx-apigw-evian3.arubadev.cloud.hpe.com
+2026-01-30 14:47:29 | INFO     | set_action_done | user=harish | action=PE-Finalize | job_id=24d7cbce-33dc-4acc-a834-9aae62cf9290 | http_status=200 | elapsed_ms=2322 | result=success
+2026-01-30 14:51:12 | INFO     | set_action_start | user=fagun | action=PE-Direct | cid_count=1 | api_base=cnx-apigw-evian3.arubadev.cloud.hpe.com
+2026-01-30 14:51:13 | INFO     | set_action_done | user=fagun | action=PE-Direct | job_id=d4358a4d-3196-4ede-a588-4ed8e0bbe32f | http_status=401 | elapsed_ms=273 | result=fail | error="API returned status 401: {"errorCode":"HPE_GL_NETWORKING_ERROR_UNAUTHORIZED","httpStatusCode":401,"m"
+2026-01-30 15:13:36 | INFO     | set_action_start | user=harish | action=Tran-Begin | cid_count=126 | api_base=cnx-apigw-evian3.arubadev.cloud.hpe.com
